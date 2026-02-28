@@ -68,7 +68,6 @@
             word-break: break-all;
             font-size: 1.4em;
             color: #1a1a1a;
-            padding-right: 70px;
         }
 
         #close-btn,
@@ -108,18 +107,31 @@
             color: #00d;
         }
 
-        /* Controls Overlay */
+        /* Controls Overlay (unified sidebar) */
         #controls {
             position: absolute;
             top: 20px;
             left: 20px;
+            width: 220px;
             background: rgba(255, 255, 255, 0.85);
-            padding: 15px 20px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             z-index: 5;
             backdrop-filter: blur(5px);
             border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            max-height: calc(100vh - 40px);
+        }
+
+        #controls .controls-top {
+            padding: 15px 20px;
+        }
+
+        .controls-divider {
+            height: 1px;
+            background: #e0e0e0;
+            margin: 0 15px;
         }
 
         .control-group {
@@ -140,7 +152,7 @@
         }
 
         .control-group input[type=range] {
-            width: 180px;
+            width: 100%;
             accent-color: #2a9d8f;
         }
 
@@ -223,6 +235,374 @@
             z-index: 100;
             border-bottom: 1px solid #d00;
         }
+
+        /* Search section inside unified controls */
+        .search-section {
+            padding: 12px 15px;
+        }
+
+        .search-section h4 {
+            margin: 0 0 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 7px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 13px;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        #search-input:focus {
+            border-color: #2a9d8f;
+        }
+
+        .quick-filters {
+            display: flex;
+            gap: 6px;
+            padding: 8px 15px 4px;
+        }
+
+        .quick-filters .filter-btn {
+            padding: 4px 12px;
+            border: 1px solid #ddd;
+            border-radius: 14px;
+            background: #fff;
+            font-size: 12px;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .quick-filters .filter-btn:hover {
+            border-color: #2a9d8f;
+            color: #2a9d8f;
+        }
+
+        .quick-filters .filter-btn.active {
+            background: #2a9d8f;
+            color: #fff;
+            border-color: #2a9d8f;
+        }
+
+        #search-results {
+            overflow-y: auto;
+            flex: 1;
+            padding: 4px 0;
+        }
+
+        #search-results:empty {
+            display: none;
+        }
+
+        .search-result-item {
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: background 0.15s;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-item:hover {
+            background: rgba(42, 157, 143, 0.08);
+        }
+
+        .search-result-item .result-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+            word-break: break-all;
+        }
+
+        .search-result-item .result-title .highlight {
+            background: rgba(42, 157, 143, 0.2);
+            border-radius: 2px;
+        }
+
+        .search-result-item .result-path {
+            font-size: 11px;
+            color: #888;
+            word-break: break-all;
+        }
+
+        #search-empty {
+            padding: 12px 15px;
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+            display: none;
+        }
+
+        /* Panel title row (flex) */
+        .panel-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-right: 70px;
+        }
+
+        .panel-title-row h2 {
+            padding-right: 0;
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* Focus button in panel header — inline before title */
+        #focus-btn {
+            background: none;
+            border: 1px solid #ddd;
+            font-size: 12px;
+            color: #555;
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            display: none;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        #focus-btn:hover {
+            background: #2a9d8f;
+            color: #fff;
+            border-color: #2a9d8f;
+        }
+
+        /* Focus sub-page overlay */
+        #focus-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #f7f8fc;
+            z-index: 50;
+            display: none;
+            flex-direction: column;
+        }
+
+        #focus-page.open {
+            display: flex;
+        }
+
+        .focus-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            z-index: 2;
+        }
+
+        .focus-back-btn {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #555;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .focus-back-btn:hover {
+            background: #f0f0f0;
+            border-color: #bbb;
+        }
+
+        .focus-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .focus-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            cursor: grab;
+        }
+
+        .focus-canvas.dragging {
+            cursor: grabbing;
+        }
+
+        .focus-canvas-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: 0 0;
+        }
+
+        /* Flow cards */
+        .flow-card {
+            position: absolute;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px 16px;
+            min-width: 180px;
+            max-width: 240px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            cursor: pointer;
+            transition: box-shadow 0.2s, border-color 0.2s;
+            z-index: 1;
+        }
+
+        .flow-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            border-color: #2a9d8f;
+        }
+
+        .flow-card.is-dir {
+            border-left: 3px solid #f4a261;
+        }
+
+        .flow-card.is-file {
+            border-left: 3px solid #2a9d8f;
+        }
+
+        .flow-card.is-root {
+            border-left: 3px solid #ff4444;
+            background: #fff8f8;
+        }
+
+        .flow-card .card-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            word-break: break-all;
+        }
+
+        .flow-card .card-type {
+            font-size: 11px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .flow-card .card-path {
+            font-size: 10px;
+            color: #aaa;
+            margin-top: 2px;
+            word-break: break-all;
+        }
+
+        .flow-edge {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .flow-card.selected {
+            border-color: #2a9d8f;
+            box-shadow: 0 0 0 2px rgba(42, 157, 143, 0.3), 0 4px 16px rgba(0,0,0,0.12);
+        }
+
+        /* Focus page detail panel (right side) */
+        #focus-detail {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 45%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid #ccc;
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        #focus-detail.open {
+            transform: translateX(0);
+        }
+
+        .focus-detail-header {
+            padding: 20px;
+            border-bottom: 2px solid #f0f4f8;
+            background-color: rgba(250, 251, 252, 0.9);
+            position: relative;
+        }
+
+        .focus-detail-header h3 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #1a1a1a;
+            word-break: break-all;
+            padding-right: 70px;
+        }
+
+        #focus-detail-close,
+        #focus-detail-copy {
+            position: absolute;
+            top: 15px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #999;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+        }
+
+        #focus-detail-close {
+            right: 20px;
+        }
+
+        #focus-detail-copy {
+            right: 55px;
+        }
+
+        #focus-detail-close:hover {
+            background: #fee;
+            color: #d00;
+        }
+
+        #focus-detail-copy:hover {
+            background: #eef;
+            color: #00d;
+        }
+
+        .focus-detail-content {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
     </style>
 
     <!-- Load Scripts with Fallbacks -->
@@ -247,30 +627,73 @@
     <div id="error-banner"></div>
 
     <div id="controls">
-        <h3 style="margin-top:0; margin-bottom: 5px; font-size: 14px; color: #333;">Claude Code：提示词结构汇总</h3>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <p style="margin: 0; font-size: 11px; color: #666;">最新更新时间：2026年2月26日</p>
-            <a href="https://github.com/Yuan-Chen-Haku/Claude-cowork-prompt-260225" target="_blank"
-                title="View on GitHub" style="color: #666; transition: color 0.2s; display: flex;"
-                onmouseover="this.style.color='#333'" onmouseout="this.style.color='#666'">
-                <svg height="14" width="14" viewBox="0 0 16 16" fill="currentColor">
-                    <path fill-rule="evenodd"
-                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
-                    </path>
-                </svg>
-            </a>
+        <div class="controls-top">
+            <h3 style="margin-top:0; margin-bottom: 5px; font-size: 14px; color: #333;">Claude Code：提示词结构汇总</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <p style="margin: 0; font-size: 11px; color: #666;">最新更新时间：2026年2月26日</p>
+                <a href="https://github.com/Yuan-Chen-Haku/Claude-cowork-prompt-260225" target="_blank"
+                    title="View on GitHub" style="color: #666; transition: color 0.2s; display: flex;"
+                    onmouseover="this.style.color='#333'" onmouseout="this.style.color='#666'">
+                    <svg height="14" width="14" viewBox="0 0 16 16" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                        </path>
+                    </svg>
+                </a>
+            </div>
+            <div class="control-group">
+                <label>Ring Spacing (Radius) <span id="dist-val">150</span></label>
+                <input type="range" id="dist-slider" min="50" max="500" value="150" step="10">
+            </div>
+            <div class="control-group">
+                <label>Node Repulsion (Centrality) <span id="charge-val">-20</span></label>
+                <input type="range" id="charge-slider" min="-300" max="0" value="-20" step="5">
+            </div>
         </div>
-        <div class="control-group">
-            <label>Ring Spacing (Radius) <span id="dist-val">150</span></label>
-            <input type="range" id="dist-slider" min="50" max="500" value="150" step="10">
+        <div class="controls-divider"></div>
+        <div class="search-section">
+            <h4>🔍 全局搜索</h4>
+            <input type="text" id="search-input" placeholder="输入关键词搜索节点...">
         </div>
-        <div class="control-group">
-            <label>Node Repulsion (Centrality) <span id="charge-val">-20</span></label>
-            <input type="range" id="charge-slider" min="-300" max="0" value="-20" step="5">
+        <div class="quick-filters">
+            <button class="filter-btn" data-filter="readme">📄 Readme</button>
+            <button class="filter-btn" data-filter="skills">⚡ Skills</button>
         </div>
+        <div id="search-results"></div>
+        <div id="search-empty">无匹配结果</div>
     </div>
 
     <div id="graph"></div>
+
+    <div id="focus-page">
+        <div class="focus-toolbar">
+            <button class="focus-back-btn" id="focus-back-btn">← 返回图谱</button>
+            <span class="focus-title" id="focus-title"></span>
+        </div>
+        <div style="flex:1; position:relative; overflow:hidden;">
+            <div class="focus-canvas" id="focus-canvas">
+                <div class="focus-canvas-inner" id="focus-canvas-inner"></div>
+            </div>
+            <div id="focus-detail">
+                <div class="focus-detail-header">
+                    <button id="focus-detail-copy" title="Copy Markdown">
+                        <svg id="focus-copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        <svg id="focus-check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#28a745"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </button>
+                    <button id="focus-detail-close" title="Close">×</button>
+                    <h3 id="focus-detail-title"></h3>
+                </div>
+                <div id="focus-detail-content" class="focus-detail-content markdown-body"></div>
+            </div>
+        </div>
+    </div>
 
     <div id="panel">
         <div class="panel-header">
@@ -286,8 +709,16 @@
                 </svg>
             </button>
             <button id="close-btn" title="Close">×</button>
-            <h2 id="doc-title">Welcome</h2>
-
+            <div class="panel-title-row">
+                <button id="focus-btn" title="Focus View">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    Focus
+                </button>
+                <h2 id="doc-title">Welcome</h2>
+            </div>
         </div>
         <div id="content-display" class="panel-content markdown-body">
             <p>Click on any <strong>file node (blue)</strong> in the graph to view its Markdown or text contents.</p>
@@ -410,6 +841,15 @@
                             }
                             document.getElementById('panel').classList.add('open');
 
+                            // Show Focus button only for red nodes (depth === 1)
+                            const focusBtn = document.getElementById('focus-btn');
+                            if (node.depth === 1) {
+                                focusBtn.style.display = 'flex';
+                                focusBtn.onclick = () => openFocusPage(node);
+                            } else {
+                                focusBtn.style.display = 'none';
+                            }
+
                             // ----------------------------------------------------
                             // Auto-Frame to Context Window (Left 50vw)
                             // ----------------------------------------------------
@@ -524,6 +964,468 @@
                     Graph.d3Force('charge').strength(val);
                     Graph.d3ReheatSimulation();
                 });
+
+                // ============================================================
+                // Global Search & Quick Filter
+                // ============================================================
+                let activeFilter = null; // 'readme' | 'skills' | null
+                let filterHighlightNodes = new Set();
+                let filterHighlightLinks = new Set();
+
+                // Build parent map for upstream traversal
+                const parentMap = new Map(); // nodeId -> {link, parentNode}
+                gData.links.forEach(l => {
+                    parentMap.set(typeof l.target === 'object' ? l.target.id : l.target,
+                        { link: l, parent: typeof l.source === 'object' ? l.source : gData.nodes.find(n => n.id === l.source) });
+                });
+
+                function getAncestors(node) {
+                    const nodes = new Set();
+                    const links = new Set();
+                    let cur = node;
+                    while (cur) {
+                        const entry = parentMap.get(cur.id);
+                        if (!entry) break;
+                        links.add(entry.link);
+                        nodes.add(entry.parent);
+                        cur = entry.parent;
+                    }
+                    return { nodes, links };
+                }
+
+                function applyFilterHighlight(matchedNodes) {
+                    filterHighlightNodes.clear();
+                    filterHighlightLinks.clear();
+
+                    matchedNodes.forEach(n => {
+                        filterHighlightNodes.add(n);
+                        const ancestors = getAncestors(n);
+                        ancestors.nodes.forEach(an => filterHighlightNodes.add(an));
+                        ancestors.links.forEach(al => filterHighlightLinks.add(al));
+                    });
+
+                    // Overlay filter highlight into the main highlight sets
+                    highlightNodes.clear();
+                    highlightLinks.clear();
+                    filterHighlightNodes.forEach(n => highlightNodes.add(n));
+                    filterHighlightLinks.forEach(l => highlightLinks.add(l));
+
+                    Graph.linkColor(Graph.linkColor()).linkWidth(Graph.linkWidth());
+                }
+
+                function clearFilterHighlight() {
+                    filterHighlightNodes.clear();
+                    filterHighlightLinks.clear();
+                    highlightNodes.clear();
+                    highlightLinks.clear();
+                    Graph.linkColor(Graph.linkColor()).linkWidth(Graph.linkWidth());
+                }
+
+                // Fuzzy match: match each character of query sequentially in the target string
+                function fuzzyMatch(query, target) {
+                    const q = query.toLowerCase();
+                    const t = target.toLowerCase();
+                    let qi = 0;
+                    let firstMatchIdx = -1;
+                    const matchPositions = [];
+                    for (let ti = 0; ti < t.length && qi < q.length; ti++) {
+                        if (t[ti] === q[qi]) {
+                            if (firstMatchIdx === -1) firstMatchIdx = ti;
+                            matchPositions.push(ti);
+                            qi++;
+                        }
+                    }
+                    if (qi < q.length) return null; // not all chars matched
+                    // Score: lower is better. Prioritize starts-with, then prefix match density
+                    const consecutive = matchPositions.reduce((acc, pos, i) => {
+                        if (i > 0 && pos === matchPositions[i - 1] + 1) return acc + 1;
+                        return acc;
+                    }, 0);
+                    const score = firstMatchIdx * 100 + (matchPositions.length - consecutive) * 10 + target.length;
+                    return { score, matchPositions };
+                }
+
+                function highlightName(name, positions) {
+                    if (!positions || positions.length === 0) return name;
+                    let result = '';
+                    let pi = 0;
+                    for (let i = 0; i < name.length; i++) {
+                        if (pi < positions.length && i === positions[pi]) {
+                            result += `<span class="highlight">${name[i]}</span>`;
+                            pi++;
+                        } else {
+                            result += name[i];
+                        }
+                    }
+                    return result;
+                }
+
+                function getRelativePath(node) {
+                    const rootPath = gData.nodes[0] ? gData.nodes[0].path : '';
+                    return node.path.replace(rootPath, '').replace(/^\//, '') || node.name;
+                }
+
+                function performSearch(query) {
+                    const resultsEl = document.getElementById('search-results');
+                    const emptyEl = document.getElementById('search-empty');
+                    resultsEl.innerHTML = '';
+
+                    if (!query.trim()) {
+                        emptyEl.style.display = 'none';
+                        // If a quick filter is active, keep its highlights
+                        if (!activeFilter) clearFilterHighlight();
+                        return;
+                    }
+
+                    const matches = [];
+                    gData.nodes.forEach(node => {
+                        if (node.depth === 0) return;
+                        const result = fuzzyMatch(query, node.name);
+                        if (result) matches.push({ node, ...result });
+                    });
+
+                    matches.sort((a, b) => a.score - b.score);
+
+                    if (matches.length === 0) {
+                        emptyEl.style.display = 'block';
+                        clearFilterHighlight();
+                        return;
+                    }
+
+                    emptyEl.style.display = 'none';
+
+                    // Highlight matched nodes and ancestors
+                    applyFilterHighlight(matches.map(m => m.node));
+
+                    matches.forEach(({ node, matchPositions }) => {
+                        const item = document.createElement('div');
+                        item.className = 'search-result-item';
+                        item.innerHTML = `
+                            <div class="result-title">${highlightName(node.name, matchPositions)}</div>
+                            <div class="result-path">${getRelativePath(node)}</div>
+                        `;
+                        item.addEventListener('click', () => {
+                            // Simulate node click
+                            Graph.onNodeClick()(node, null);
+                        });
+                        resultsEl.appendChild(item);
+                    });
+                }
+
+                document.getElementById('search-input').addEventListener('input', e => {
+                    activeFilter = null;
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    performSearch(e.target.value);
+                });
+
+                // Quick filter buttons
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const filter = btn.dataset.filter;
+                        const wasActive = btn.classList.contains('active');
+
+                        // Deactivate all
+                        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        document.getElementById('search-input').value = '';
+                        document.getElementById('search-results').innerHTML = '';
+                        document.getElementById('search-empty').style.display = 'none';
+
+                        if (wasActive) {
+                            activeFilter = null;
+                            clearFilterHighlight();
+                            return;
+                        }
+
+                        activeFilter = filter;
+                        btn.classList.add('active');
+
+                        // Find matching file nodes
+                        const matchedNodes = gData.nodes.filter(n => {
+                            if (n.depth === 0) return false;
+                            const nameLower = n.name.toLowerCase();
+                            if (filter === 'readme') return nameLower.includes('readme');
+                            if (filter === 'skills') return nameLower.includes('skill');
+                            return false;
+                        });
+
+                        if (matchedNodes.length === 0) {
+                            clearFilterHighlight();
+                            return;
+                        }
+
+                        applyFilterHighlight(matchedNodes);
+
+                        // Show results
+                        const resultsEl = document.getElementById('search-results');
+                        matchedNodes.sort((a, b) => a.name.localeCompare(b.name));
+                        matchedNodes.forEach(node => {
+                            const item = document.createElement('div');
+                            item.className = 'search-result-item';
+                            item.innerHTML = `
+                                <div class="result-title">${node.name}</div>
+                                <div class="result-path">${getRelativePath(node)}</div>
+                            `;
+                            item.addEventListener('click', () => {
+                                Graph.onNodeClick()(node, null);
+                            });
+                            resultsEl.appendChild(item);
+                        });
+                    });
+                });
+
+                // ============================================================
+                // Focus Sub-Page (ReactFlow-style card layout)
+                // ============================================================
+                function getDescendants(rootNode) {
+                    const nodes = [rootNode];
+                    const edges = [];
+                    const traverse = (cur) => {
+                        gData.links.forEach(l => {
+                            if (l.source === cur || (typeof l.source === 'object' ? l.source.id : l.source) === cur.id) {
+                                const target = typeof l.target === 'object' ? l.target : gData.nodes.find(n => n.id === l.target);
+                                if (target) {
+                                    nodes.push(target);
+                                    edges.push({ source: cur, target });
+                                    traverse(target);
+                                }
+                            }
+                        });
+                    };
+                    traverse(rootNode);
+                    return { nodes, edges };
+                }
+
+                // --- Canvas panning state ---
+                let panX = 0, panY = 0;
+                let isPanning = false, panStartX = 0, panStartY = 0, panStartPX = 0, panStartPY = 0;
+                let didDrag = false;
+                const focusCanvas = document.getElementById('focus-canvas');
+                const focusInner = document.getElementById('focus-canvas-inner');
+
+                function updateCanvasTransform() {
+                    focusInner.style.transform = `translate(${panX}px, ${panY}px)`;
+                }
+
+                focusCanvas.addEventListener('mousedown', e => {
+                    if (e.button !== 0) return;
+                    isPanning = true;
+                    didDrag = false;
+                    panStartX = e.clientX;
+                    panStartY = e.clientY;
+                    panStartPX = panX;
+                    panStartPY = panY;
+                    focusCanvas.classList.add('dragging');
+                });
+
+                window.addEventListener('mousemove', e => {
+                    if (!isPanning) return;
+                    const dx = e.clientX - panStartX;
+                    const dy = e.clientY - panStartY;
+                    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) didDrag = true;
+                    panX = panStartPX + dx;
+                    panY = panStartPY + dy;
+                    updateCanvasTransform();
+                });
+
+                window.addEventListener('mouseup', () => {
+                    isPanning = false;
+                    focusCanvas.classList.remove('dragging');
+                });
+
+                // --- Focus detail panel ---
+                let focusSelectedCard = null;
+
+                function openFocusDetail(node) {
+                    // Deselect previous
+                    if (focusSelectedCard) focusSelectedCard.classList.remove('selected');
+
+                    document.getElementById('focus-detail-title').textContent = node.name;
+                    const contentEl = document.getElementById('focus-detail-content');
+
+                    if (node.type === 'file') {
+                        document.getElementById('focus-detail-copy').style.display = 'flex';
+                        const contentText = node.content || '*Empty file*';
+                        if (typeof marked !== 'undefined') {
+                            contentEl.innerHTML = typeof marked.parse === 'function' ? marked.parse(contentText) : marked(contentText);
+                        } else {
+                            contentEl.innerHTML = `<pre>${contentText}</pre>`;
+                        }
+                    } else {
+                        document.getElementById('focus-detail-copy').style.display = 'none';
+                        contentEl.innerHTML = '<p><em>This is a directory node.</em></p>';
+                    }
+
+                    // Store current node for copy
+                    document.getElementById('focus-detail')._currentNode = node;
+                    document.getElementById('focus-detail').classList.add('open');
+                }
+
+                function closeFocusDetail() {
+                    document.getElementById('focus-detail').classList.remove('open');
+                    if (focusSelectedCard) {
+                        focusSelectedCard.classList.remove('selected');
+                        focusSelectedCard = null;
+                    }
+                }
+
+                document.getElementById('focus-detail-close').addEventListener('click', closeFocusDetail);
+
+                document.getElementById('focus-detail-copy').addEventListener('click', () => {
+                    const detail = document.getElementById('focus-detail');
+                    const node = detail._currentNode;
+                    const text = (node && node.content) ? node.content : '';
+                    if (!text) return;
+                    navigator.clipboard.writeText(text).then(() => {
+                        document.getElementById('focus-copy-icon').style.display = 'none';
+                        document.getElementById('focus-check-icon').style.display = 'inline';
+                        setTimeout(() => {
+                            document.getElementById('focus-copy-icon').style.display = 'inline';
+                            document.getElementById('focus-check-icon').style.display = 'none';
+                        }, 2000);
+                    }).catch(err => console.error('Copy failed:', err));
+                });
+
+                // --- Open focus page ---
+                function openFocusPage(rootNode) {
+                    document.getElementById('panel').classList.remove('open');
+                    closeFocusDetail();
+                    const focusPage = document.getElementById('focus-page');
+                    document.getElementById('focus-title').textContent = rootNode.name;
+
+                    const { nodes: descendants, edges } = getDescendants(rootNode);
+                    const rootPath = gData.nodes[0] ? gData.nodes[0].path : '';
+
+                    // Build tree structure for layout
+                    const childrenMap = new Map();
+                    edges.forEach(e => {
+                        const pid = e.source.id;
+                        if (!childrenMap.has(pid)) childrenMap.set(pid, []);
+                        childrenMap.get(pid).push(e.target);
+                    });
+
+                    const CARD_W = 200, CARD_H = 70, GAP_X = 80, GAP_Y = 24, PADDING = 60;
+
+                    // Compute subtree heights
+                    const subtreeHeight = new Map();
+                    function calcHeight(node) {
+                        const children = childrenMap.get(node.id) || [];
+                        if (children.length === 0) { subtreeHeight.set(node.id, CARD_H); return CARD_H; }
+                        const total = children.reduce((sum, c) => sum + calcHeight(c) + GAP_Y, -GAP_Y);
+                        subtreeHeight.set(node.id, total);
+                        return total;
+                    }
+                    calcHeight(rootNode);
+
+                    // Assign positions
+                    const positions = new Map();
+                    function layoutNode(node, x, yStart) {
+                        const h = subtreeHeight.get(node.id);
+                        positions.set(node.id, { x, y: yStart + h / 2 - CARD_H / 2 });
+                        const children = childrenMap.get(node.id) || [];
+                        let curY = yStart;
+                        children.forEach(child => {
+                            layoutNode(child, x + CARD_W + GAP_X, curY);
+                            curY += subtreeHeight.get(child.id) + GAP_Y;
+                        });
+                    }
+                    layoutNode(rootNode, PADDING, PADDING);
+
+                    let maxX = 0, maxY = 0;
+                    positions.forEach(pos => {
+                        maxX = Math.max(maxX, pos.x + CARD_W + PADDING);
+                        maxY = Math.max(maxY, pos.y + CARD_H + PADDING);
+                    });
+
+                    const inner = focusInner;
+                    inner.innerHTML = '';
+                    inner.style.width = maxX + 'px';
+                    inner.style.height = maxY + 'px';
+
+                    // Reset pan to center the root node in view
+                    panX = 0;
+                    panY = 0;
+                    updateCanvasTransform();
+
+                    // SVG edges
+                    const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    svgEl.classList.add('flow-edge');
+                    svgEl.setAttribute('width', maxX);
+                    svgEl.setAttribute('height', maxY);
+                    svgEl.style.width = maxX + 'px';
+                    svgEl.style.height = maxY + 'px';
+                    inner.appendChild(svgEl);
+
+                    edges.forEach(e => {
+                        const sp = positions.get(e.source.id);
+                        const tp = positions.get(e.target.id);
+                        if (!sp || !tp) return;
+                        const x1 = sp.x + CARD_W, y1 = sp.y + CARD_H / 2;
+                        const x2 = tp.x, y2 = tp.y + CARD_H / 2;
+                        const mx = (x1 + x2) / 2;
+
+                        const markerId = `arrow-${e.source.id}-${e.target.id}`;
+                        const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+                        const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+                        marker.setAttribute('id', markerId);
+                        marker.setAttribute('viewBox', '0 0 10 10');
+                        marker.setAttribute('refX', '10');
+                        marker.setAttribute('refY', '5');
+                        marker.setAttribute('markerWidth', '6');
+                        marker.setAttribute('markerHeight', '6');
+                        marker.setAttribute('orient', 'auto');
+                        const arrowPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                        arrowPath.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z');
+                        arrowPath.setAttribute('fill', '#ccc');
+                        marker.appendChild(arrowPath);
+                        defs.appendChild(marker);
+                        svgEl.appendChild(defs);
+
+                        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                        path.setAttribute('d', `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`);
+                        path.setAttribute('fill', 'none');
+                        path.setAttribute('stroke', '#ccc');
+                        path.setAttribute('stroke-width', '1.5');
+                        path.setAttribute('marker-end', `url(#${markerId})`);
+                        svgEl.appendChild(path);
+                    });
+
+                    // Cards
+                    descendants.forEach(node => {
+                        const pos = positions.get(node.id);
+                        if (!pos) return;
+                        const card = document.createElement('div');
+                        card.className = 'flow-card' + (node === rootNode ? ' is-root' : node.type === 'dir' ? ' is-dir' : ' is-file');
+                        card.style.left = pos.x + 'px';
+                        card.style.top = pos.y + 'px';
+                        card.style.width = CARD_W + 'px';
+
+                        const relPath = node.path.replace(rootPath, '').replace(/^\//, '');
+                        card.innerHTML = `
+                            <div class="card-name">${node.name}</div>
+                            <div class="card-type">${node === rootNode ? '📁 分支根节点' : node.type === 'dir' ? '📂 目录' : '📄 文件'}</div>
+                            <div class="card-path">${relPath}</div>
+                        `;
+
+                        card.addEventListener('click', (evt) => {
+                            evt.stopPropagation();
+                            if (didDrag) return; // ignore drag-end clicks
+                            focusSelectedCard = card;
+                            inner.querySelectorAll('.flow-card.selected').forEach(c => c.classList.remove('selected'));
+                            card.classList.add('selected');
+                            openFocusDetail(node);
+                        });
+                        inner.appendChild(card);
+                    });
+
+                    focusPage.classList.add('open');
+                }
+
+                function closeFocusPage() {
+                    closeFocusDetail();
+                    document.getElementById('focus-page').classList.remove('open');
+                }
+
+                document.getElementById('focus-back-btn').addEventListener('click', closeFocusPage);
 
                 Graph.nodePointerAreaPaint((node, color, ctx) => {
                     const nodeR = Math.sqrt(Math.max(0, node.val || 1)) * 4;
